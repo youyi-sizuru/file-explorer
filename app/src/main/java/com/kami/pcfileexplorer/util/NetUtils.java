@@ -1,5 +1,9 @@
 package com.kami.pcfileexplorer.util;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 import android.text.format.Formatter;
 
 import java.math.BigInteger;
@@ -39,5 +43,19 @@ public class NetUtils {
             length--;
         }
         return length;
+    }
+
+    /**
+     * check wifi is connected.
+     * @param context
+     * @return is wifi connected
+     */
+    public static boolean isWifiConnected(@NonNull Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetworkInfo == null || activeNetworkInfo.getType() != ConnectivityManager.TYPE_WIFI) {
+            return false;
+        }
+        return true;
     }
 }

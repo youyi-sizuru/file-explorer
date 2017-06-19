@@ -1,5 +1,6 @@
 package com.kami.pcfileexplorer.ui.device.cifs;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,14 +17,15 @@ import butterknife.BindView;
  * Created by youyi on 2017/6/17.
  */
 
-public class CIFSFragment extends BaseFragment implements CIFSContract.View{
+public class CIFSFragment extends BaseFragment implements CIFSContract.View {
     private CIFSContract.Presenter mPresenter;
     @BindView(R.id.test_logger)
     FSTextView mLoggerText;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_cifs,container, false);
+        View view = inflater.inflate(R.layout.frag_cifs, container, false);
         return view;
     }
 
@@ -31,6 +33,12 @@ public class CIFSFragment extends BaseFragment implements CIFSContract.View{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mPresenter.subscribe();
+    }
+
+    @Nullable
+    @Override
+    public Context getViewContext() {
+        return getContext();
     }
 
     @Override
