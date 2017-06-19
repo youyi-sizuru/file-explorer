@@ -1,0 +1,48 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1'
+        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+ext {
+    minSdkVersion = 15
+    targetSdkVersion = 25
+    buildToolsVersion = '25.0.2'
+    compileSdkVersion = 25
+    deps = [
+            supportAppcompatV7: 'com.android.support:appcompat-v7:25.1.0',
+            supportDesign: 'com.android.support:design:25.1.0',
+            butterknife: 'com.jakewharton:butterknife:8.5.1',
+            RxAndroid: 'io.reactivex.rxjava2:rxandroid:2.0.1',
+            RxJava: 'io.reactivex.rxjava2:rxjava:2.0.1'
+    ]
+    ap = [
+            butterknifeCompiler: 'com.jakewharton:butterknife-compiler:8.5.1',
+    ]
+    androidTestDeps =[
+            espresso: 'com.android.support.test.espresso:espresso-core:2.2.2',
+    ]
+    testDeps = [
+            junit: 'junit:junit:4.12',
+    ]
+}
