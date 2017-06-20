@@ -4,7 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
-import android.text.format.Formatter;
+
+import com.kami.pcfileexplorer.Constants;
 
 import java.math.BigInteger;
 import java.net.Inet4Address;
@@ -16,12 +17,10 @@ import java.net.UnknownHostException;
  */
 
 public class NetUtils {
-    public static final short MAX_MASK_LENGTH = 32;
 
     public static InetAddress formatIpv4Address(int ipv4Address) throws UnknownHostException {
         byte[] bytes = BigInteger.valueOf(ipv4Address).toByteArray();
-        InetAddress inetAddress = Inet4Address.getByAddress(bytes);
-        return inetAddress;
+        return Inet4Address.getByAddress(bytes);
     }
 
     public static int reversalIpv4Address(int Ipv4Address) {
@@ -34,7 +33,7 @@ public class NetUtils {
     }
 
     public static short calculateMaskLength(int netMask) {
-        short length = MAX_MASK_LENGTH;
+        short length = Constants.NET_MASK_MAX_LENGTH;
         while (length >= 0) {
             if ((netMask & 0x1) == 1) {
                 break;
@@ -47,15 +46,13 @@ public class NetUtils {
 
     /**
      * check wifi is connected.
-     * @param context
+     *
+     * @param context context
      * @return is wifi connected
      */
     public static boolean isWifiConnected(@NonNull Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        if (activeNetworkInfo == null || activeNetworkInfo.getType() != ConnectivityManager.TYPE_WIFI) {
-            return false;
-        }
-        return true;
+        return activeNetworkInfo != null && activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI;
     }
 }

@@ -29,11 +29,6 @@ public class CIFSFragment extends BaseFragment implements CIFSContract.View {
         return view;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mPresenter.subscribe();
-    }
 
     @Nullable
     @Override
@@ -44,6 +39,7 @@ public class CIFSFragment extends BaseFragment implements CIFSContract.View {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mPresenter.subscribe();
     }
 
     @Override
