@@ -39,7 +39,7 @@ public class CIFSPresenter implements CIFSContract.Presenter {
                 .searchDevices(dhcpInfo.ipAddress)
                 .subscribeOn(SchedulerProvider.getInstance().computation())
                 .observeOn(SchedulerProvider.getInstance().ui())
-                .subscribe(text -> logBuilder.append(text + "\n"),
+                .subscribe(text -> logBuilder.append(text),
                         throwable -> mView.setLoggerText(throwable.getMessage()),
                         () ->  mView.setLoggerText(logBuilder.toString()));
         mDisposable.add(disposable);

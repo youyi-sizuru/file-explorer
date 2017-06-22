@@ -10,6 +10,9 @@ import com.kami.pcfileexplorer.Constants;
 import java.math.BigInteger;
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 /**
@@ -54,5 +57,17 @@ public class NetUtils {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.getType() == ConnectivityManager.TYPE_WIFI;
+    }
+
+    public static short getNetMask(int host) throws UnknownHostException, SocketException{
+        InetAddress inetAddress = Inet4Address.getByAddress(BigInteger.valueOf(host).toByteArray());
+        NetworkInterface networkInterface = NetworkInterface.getByInetAddress(inetAddress);
+        for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
+            int length = interfaceAddress.getNetworkPrefixLength();
+            if (length > 0 && length <= Constants.NET_MASK_MAX_LENGTH) {
+                return interfaceAddress.getNetworkPrefixLength();
+            }
+        }
+        return 0;
     }
 }
