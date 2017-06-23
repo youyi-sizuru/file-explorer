@@ -34,7 +34,8 @@ ext {
             supportDesign: 'com.android.support:design:25.1.0',
             butterknife: 'com.jakewharton:butterknife:8.5.1',
             RxAndroid: 'io.reactivex.rxjava2:rxandroid:2.0.1',
-            RxJava: 'io.reactivex.rxjava2:rxjava:2.0.1'
+            RxJava: 'io.reactivex.rxjava2:rxjava:2.0.1',
+            guava: "com.google.guava:guava:22.0-android",
     ]
     ap = [
             butterknifeCompiler: 'com.jakewharton:butterknife-compiler:8.5.1',

@@ -5,15 +5,20 @@ import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
 
+import com.kami.pcfileexplorer.bean.CIFSDevice;
 import com.kami.pcfileexplorer.data.cifs.CIFSSearcher;
 import com.kami.pcfileexplorer.util.NetUtils;
 import com.kami.pcfileexplorer.util.schedulers.SchedulerProvider;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by youyi on 2017/6/17.
+ * author: youyi_sizuru
+ * data: 2017/6/17
  */
 
 public class CIFSPresenter implements CIFSContract.Presenter {
@@ -34,14 +39,14 @@ public class CIFSPresenter implements CIFSContract.Presenter {
         }
         WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         DhcpInfo dhcpInfo = wifiManager.getDhcpInfo();
-        final StringBuilder logBuilder = new StringBuilder();
+        final List<CIFSDevice> deviceList = new ArrayList<>();
         Disposable disposable = CIFSSearcher.getInstance()
                 .searchDevices(dhcpInfo.ipAddress)
                 .subscribeOn(SchedulerProvider.getInstance().computation())
                 .observeOn(SchedulerProvider.getInstance().ui())
-                .subscribe(text -> logBuilder.append(text),
-                        throwable -> mView.setLoggerText(throwable.getMessage()),
-                        () ->  mView.setLoggerText(logBuilder.toString()));
+                .subscribe(deviceList::add,
+                        throwable -> {},
+                        () -> {});
         mDisposable.add(disposable);
     }
 

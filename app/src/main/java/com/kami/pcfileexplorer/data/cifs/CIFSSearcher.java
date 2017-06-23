@@ -1,5 +1,6 @@
 package com.kami.pcfileexplorer.data.cifs;
 
+import com.kami.pcfileexplorer.bean.CIFSDevice;
 import com.kami.pcfileexplorer.util.NetUtils;
 import com.kami.pcfileexplorer.util.schedulers.SchedulerProvider;
 
@@ -24,45 +25,39 @@ public class CIFSSearcher {
     private CIFSSearcher() {
     }
 
-    public Flowable<String> searchDevices(int hostAddress) {
+    public Flowable<CIFSDevice> searchDevices(int hostAddress) {
         return Flowable.just(hostAddress)
-                .map(host -> NetUtils.reversalIpv4Address(host))
+                .map(NetUtils::reversalIpv4Address)
                 .flatMap(host -> {
                     short netMaskLength = NetUtils.getNetMask(host);
                     if (netMaskLength == 0) {
                         throw new Exception("net mask is 0");
                     }
                     int offset = 32 - netMaskLength;
-                    int startIp = (host >> offset << offset) + 2;
-                    int endIp = (startIp | ((1 << offset) - 1)) - 2;
-                    int count = 0;
-                    if (endIp < startIp) {
-                        count = startIp - endIp;
-                        startIp = endIp;
-                    } else {
-                        count = endIp - startIp;
-                    }
+                    int startIp = (host >> offset << offset) + 1;
+                    int endIp = (startIp | ((1 << offset) - 1)) - 1;
+                    int count = endIp - startIp;
                     return checkDevices(startIp, count);
                 });
     }
 
-    private Flowable<String> checkDevices(int startIp, int count) {
+    private Flowable<CIFSDevice> checkDevices(int startIp, int count) {
         return Flowable.range(startIp, count)
                 .map(hostIp -> NetUtils.formatIpv4Address(hostIp).getHostAddress())
                 .flatMap(hostIp -> Flowable.just(hostIp)
-                        .filter(ip -> this.canConnect(hostIp))
+                        .filter(this::canConnect)
                         .map(ip -> {
-                            NbtAddress[] addresses = NbtAddress.getAllByAddress(hostIp);
-                            if (addresses == null || addresses.length == 0) {
-                                return hostIp;
-                            } else {
-                                return addresses[0].getHostName();
+                            String hostName = ip;
+                            NbtAddress[] addresses = NbtAddress.getAllByAddress(ip);
+                            if (addresses != null && addresses.length > 0) {
+                                hostName = addresses[0].getHostName();
                             }
+                            return new CIFSDevice(ip, hostName);
                         })
                         .subscribeOn(SchedulerProvider.getInstance().io()));
     }
 
-    private boolean canConnect(String hostIp) throws IOException {
+    private boolean canConnect(String hostIp) {
         Socket socket = null;
         try {
             socket = new Socket();
@@ -73,7 +68,12 @@ public class CIFSSearcher {
             return false;
         } finally {
             if (socket != null) {
-                socket.close();
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
     }

@@ -31,6 +31,9 @@ dependencies {
     compile rootProject.ext.deps.butterknife
     compile rootProject.ext.deps.RxAndroid
     compile rootProject.ext.deps.RxJava
+    compile(rootProject.ext.deps.guava){
+        exclude group: 'com.google.code.findbugs'
+    }
     annotationProcessor rootProject.ext.ap.butterknifeCompiler
     //android test
     androidTestCompile(rootProject.ext.androidTestDeps.espresso, {
