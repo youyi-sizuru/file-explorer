@@ -1,21 +1,23 @@
 package com.kami.pcfileexplorer.ui.device.cifs;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.kami.pcfileexplorer.BasePresenter;
 import com.kami.pcfileexplorer.BaseView;
+import com.kami.pcfileexplorer.bean.CIFSDevice;
+
+import java.util.List;
 
 /**
- * Created by youyi on 2017/6/17.
+ * author: youyi_sizuru
+ * data: 2017/6/17
  */
 
-public interface CIFSContract {
+interface CIFSContract {
     interface View extends BaseView<Presenter> {
-        void setLoggerText(@Nullable String text);
-        @NonNull
         Context getViewContext();
+        void setCifsList(List<CIFSDevice> deviceList);
+        void notifyError(String errorMessage);
     }
 
     interface Presenter extends BasePresenter {

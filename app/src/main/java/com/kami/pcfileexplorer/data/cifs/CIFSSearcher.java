@@ -50,7 +50,12 @@ public class CIFSSearcher {
                             String hostName = ip;
                             NbtAddress[] addresses = NbtAddress.getAllByAddress(ip);
                             if (addresses != null && addresses.length > 0) {
-                                hostName = addresses[0].getHostName();
+                                for (NbtAddress address : addresses) {
+                                    if (address.getNameType() != 0x00 && !address.getHostName().startsWith("IS~")) {
+                                        hostName = address.getHostName();
+                                        break;
+                                    }
+                                }
                             }
                             return new CIFSDevice(ip, hostName);
                         })
@@ -62,7 +67,7 @@ public class CIFSSearcher {
         try {
             socket = new Socket();
             InetSocketAddress address = new InetSocketAddress(hostIp, 445);
-            socket.connect(address, 500);
+            socket.connect(address, 1000);
             return true;
         } catch (IOException e) {
             return false;

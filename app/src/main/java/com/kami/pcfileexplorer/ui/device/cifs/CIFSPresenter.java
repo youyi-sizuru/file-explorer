@@ -34,7 +34,6 @@ public class CIFSPresenter implements CIFSContract.Presenter {
     public void subscribe() {
         Context context = mView.getViewContext();
         if (!NetUtils.isWifiConnected(context)) {
-            mView.setLoggerText("wifi is not connected");
             return;
         }
         WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -45,8 +44,8 @@ public class CIFSPresenter implements CIFSContract.Presenter {
                 .subscribeOn(SchedulerProvider.getInstance().computation())
                 .observeOn(SchedulerProvider.getInstance().ui())
                 .subscribe(deviceList::add,
-                        throwable -> {},
-                        () -> {});
+                        throwable -> mView.notifyError(throwable.getMessage()),
+                        () -> mView.setCifsList(deviceList));
         mDisposable.add(disposable);
     }
 
