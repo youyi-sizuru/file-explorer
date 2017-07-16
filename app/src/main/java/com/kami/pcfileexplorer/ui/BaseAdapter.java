@@ -11,14 +11,17 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
+
 /**
  * author: youyi_sizuru
  * data: 2017/7/7
  */
 
-public abstract class BaseAdapter<T, VH extends BaseViewHolder<T>> extends RecyclerView.Adapter<VH> {
+public abstract class BaseAdapter<T, VH extends BaseAdapter.BaseViewHolder<T>> extends RecyclerView.Adapter<VH> {
     private List<T> mList;
     private Context mContext;
+    private OnItemClickListener mItemClickListener;
 
     public BaseAdapter(@NonNull Context context) {
         this(context, null);
@@ -28,6 +31,19 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder<T>> extends Recyc
         this.mContext = context;
         this.mList = list;
     }
+
+    public void setItemClickListener(OnItemClickListener listener) {
+        this.mItemClickListener = listener;
+    }
+
+    @Override
+    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
+        VH viewHolder = onCreateBaseViewHolder(parent, viewType);
+        viewHolder.setAdapter(this);
+        return viewHolder;
+    }
+
+    public abstract VH onCreateBaseViewHolder(ViewGroup parent, int viewType);
 
     protected View getContentView(ViewGroup parent, @LayoutRes int layout) {
         return LayoutInflater.from(mContext).inflate(layout, parent, false);
@@ -50,5 +66,33 @@ public abstract class BaseAdapter<T, VH extends BaseViewHolder<T>> extends Recyc
     @Override
     public int getItemCount() {
         return mList == null ? 0 : mList.size();
+    }
+
+    public static abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private BaseAdapter mAdapter;
+
+        public BaseViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            this.itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            OnItemClickListener listener = mAdapter.mItemClickListener;
+            if (listener != null) {
+                listener.onItemClick(mAdapter, this.getAdapterPosition(), this.itemView);
+            }
+        }
+
+        void setAdapter(BaseAdapter adapter) {
+            this.mAdapter = adapter;
+        }
+
+        public abstract void updateViewData(T item);
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(BaseAdapter adapter, int position, View view);
     }
 }

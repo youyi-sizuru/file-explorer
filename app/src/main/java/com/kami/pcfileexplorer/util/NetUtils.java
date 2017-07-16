@@ -16,7 +16,8 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 /**
- * Created by youyi on 2017/4/24.
+ * author: youyi_sizuru
+ * data: 2017/4/24
  */
 
 public class NetUtils {

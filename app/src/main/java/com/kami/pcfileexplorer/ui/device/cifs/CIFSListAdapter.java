@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.kami.pcfileexplorer.R;
 import com.kami.pcfileexplorer.bean.CIFSDevice;
 import com.kami.pcfileexplorer.ui.BaseAdapter;
-import com.kami.pcfileexplorer.ui.BaseViewHolder;
 import com.kami.pcfileexplorer.widget.FSImageView;
 import com.kami.pcfileexplorer.widget.FSTextView;
 
@@ -32,11 +31,11 @@ class CIFSListAdapter extends BaseAdapter<CIFSDevice, CIFSListAdapter.DeviceView
     }
 
     @Override
-    public CIFSListAdapter.DeviceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CIFSListAdapter.DeviceViewHolder onCreateBaseViewHolder(ViewGroup parent, int viewType) {
         return new DeviceViewHolder(getContentView(parent, R.layout.list_file_item));
     }
 
-    final static class DeviceViewHolder extends BaseViewHolder<CIFSDevice> {
+    final static class DeviceViewHolder extends BaseAdapter.BaseViewHolder<CIFSDevice> {
         @BindView(R.id.file_icon)
         FSImageView mDeviceIcon;
         @BindView(R.id.file_name)

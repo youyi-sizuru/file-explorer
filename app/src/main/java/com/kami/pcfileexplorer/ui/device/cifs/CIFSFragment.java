@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.kami.pcfileexplorer.R;
 import com.kami.pcfileexplorer.bean.CIFSDevice;
+import com.kami.pcfileexplorer.bean.Device;
+import com.kami.pcfileexplorer.ui.BaseAdapter;
 import com.kami.pcfileexplorer.ui.BaseFragment;
 import com.kami.pcfileexplorer.widget.FSRecyclerView;
 
@@ -23,7 +25,7 @@ import butterknife.BindView;
  * data: 2017/6/17
  */
 
-public class CIFSFragment extends BaseFragment implements CIFSContract.View {
+public class CIFSFragment extends BaseFragment implements CIFSContract.View, BaseAdapter.OnItemClickListener {
     private CIFSContract.Presenter mPresenter;
     @BindView(R.id.cifs_list)
     FSRecyclerView mCifsListView;
@@ -53,9 +55,15 @@ public class CIFSFragment extends BaseFragment implements CIFSContract.View {
     }
 
     @Override
+    public void onItemClick(BaseAdapter adapter, int position, View view) {
+        CIFSDevice device = mAdapter.getList().get(position);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mAdapter = new CIFSListAdapter(getContext());
+        mAdapter.setItemClickListener(this);
         mCifsListView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL, false));
         mCifsListView.setAdapter(mAdapter);
         mPresenter.subscribe();
