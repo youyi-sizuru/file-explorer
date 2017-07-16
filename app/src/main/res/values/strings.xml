@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FSE</string>
+    <string name="file_label">文件列表</string>
 </resources>
