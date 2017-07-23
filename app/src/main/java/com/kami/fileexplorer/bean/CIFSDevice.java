@@ -52,6 +52,9 @@ public class CIFSDevice implements Device {
 
     @Override
     public String toString() {
-        return String.format("hostIp: %s, hostName: %s", mHostIp, mHostName);
+        return "CIFSDevice{" +
+                "mHostIp='" + mHostIp + '\'' +
+                ", mHostName='" + mHostName + '\'' +
+                '}';
     }
 }

@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="12dp"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <com.kami.fileexplorer.widget.FSImageView
@@ -12,13 +13,13 @@
         tools:src="@drawable/folder_icon" />
 
     <com.kami.fileexplorer.widget.FSTextView
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
         android:id="@+id/file_name"
-        android:textSize="16sp"
-        tools:text="YOUYI-SIZURU"
-        android:textColor="@color/file_name_color"
-        android:layout_gravity="center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:textColor="@color/file_name_color"
+        android:textSize="16sp"
+        tools:text="YOUYI-SIZURU" />
 </LinearLayout>
