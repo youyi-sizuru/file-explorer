@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.kami.pcfileexplorer.widget.FSLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.kami.fileexplorer.widget.FSLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <include layout="@layout/normal_toolbar" />
 
-    <com.kami.pcfileexplorer.widget.FSFrameLayout
+    <com.kami.fileexplorer.widget.FSFrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.kami.pcfileexplorer.widget.FSFrameLayout>
-</com.kami.pcfileexplorer.widget.FSLinearLayout>
+    </com.kami.fileexplorer.widget.FSFrameLayout>
+</com.kami.fileexplorer.widget.FSLinearLayout>

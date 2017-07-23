@@ -5,13 +5,13 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.kami.pcfileexplorer.widget.FSImageView
+    <com.kami.fileexplorer.widget.FSImageView
         android:id="@+id/file_icon"
         android:layout_width="@dimen/file_icon_size"
         android:layout_height="@dimen/file_icon_size"
         tools:src="@drawable/folder_icon" />
 
-    <com.kami.pcfileexplorer.widget.FSTextView
+    <com.kami.fileexplorer.widget.FSTextView
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
         android:id="@+id/file_name"
