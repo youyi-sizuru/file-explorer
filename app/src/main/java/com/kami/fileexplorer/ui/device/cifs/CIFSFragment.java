@@ -1,6 +1,7 @@
 package com.kami.fileexplorer.ui.device.cifs;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,8 +12,11 @@ import android.widget.Toast;
 
 import com.kami.fileexplorer.R;
 import com.kami.fileexplorer.bean.CIFSDevice;
+import com.kami.fileexplorer.data.FileExplorer;
+import com.kami.fileexplorer.data.cifs.CIFSFileExplorer;
 import com.kami.fileexplorer.ui.BaseAdapter;
 import com.kami.fileexplorer.ui.BaseFragment;
+import com.kami.fileexplorer.ui.file.FileActivity;
 import com.kami.fileexplorer.widget.FSRecyclerView;
 
 import java.util.List;
@@ -56,6 +60,8 @@ public class CIFSFragment extends BaseFragment implements CIFSContract.View, Bas
     @Override
     public void onItemClick(BaseAdapter adapter, int position, View view) {
         CIFSDevice device = mAdapter.getList().get(position);
+        FileExplorer explorer = new CIFSFileExplorer(device);
+        startActivity(FileActivity.getIntent(getContext(), explorer));
     }
 
     @Override

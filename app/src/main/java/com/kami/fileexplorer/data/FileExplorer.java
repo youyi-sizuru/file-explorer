@@ -1,6 +1,7 @@
 package com.kami.fileexplorer.data;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,8 +9,10 @@ import java.util.List;
  * data: 2017/7/23
  */
 
-public interface FileExplorer {
+public interface FileExplorer extends Serializable{
     List<File> getRootFiles();
+    String getDeviceName();
+    String getTitle();
     interface File{
 
     }
