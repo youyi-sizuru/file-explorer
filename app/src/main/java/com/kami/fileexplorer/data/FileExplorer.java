@@ -1,7 +1,9 @@
 package com.kami.fileexplorer.data;
 
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.util.List;
 
 /**
@@ -10,10 +12,13 @@ import java.util.List;
  */
 
 public interface FileExplorer extends Serializable{
-    List<File> getRootFiles();
+    List<File> getFiles(String path) throws IOException;
     String getDeviceName();
     String getTitle();
     interface File{
-
+        String getName();
+        boolean isDirectory();
+        long length();
+        long lastModified();
     }
 }

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -45,6 +46,34 @@ public abstract class BaseAdapter<T, VH extends BaseAdapter.BaseViewHolder<T>> e
 
     public abstract VH onCreateBaseViewHolder(ViewGroup parent, int viewType);
 
+    public void add(T item) {
+        if (mList == null) {
+            mList = new ArrayList<>();
+        }
+        mList.add(item);
+        notifyItemInserted(mList.size() - 1);
+    }
+
+    public void remove() {
+        if (getItemCount() == 0) {
+            return;
+        }
+        int position = getItemCount() - 1;
+        mList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void removeTo(int position) {
+        int count = getItemCount();
+        if (count <= position + 1) {
+            return;
+        }
+        for (int i = count - 1; i > position; i--) {
+            mList.remove(i);
+        }
+        notifyItemRangeRemoved(position + 1, count - position - 1);
+    }
+
     protected View getContentView(ViewGroup parent, @LayoutRes int layout) {
         return LayoutInflater.from(mContext).inflate(layout, parent, false);
     }
@@ -57,6 +86,7 @@ public abstract class BaseAdapter<T, VH extends BaseAdapter.BaseViewHolder<T>> e
     public List<T> getList() {
         return mList;
     }
+
 
     @Override
     public void onBindViewHolder(VH holder, int position) {

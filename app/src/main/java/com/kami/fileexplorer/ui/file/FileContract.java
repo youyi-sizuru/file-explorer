@@ -2,6 +2,9 @@ package com.kami.fileexplorer.ui.file;
 
 import com.kami.fileexplorer.BasePresenter;
 import com.kami.fileexplorer.BaseView;
+import com.kami.fileexplorer.data.FileExplorer;
+
+import java.util.List;
 
 /**
  * author: youyi_sizuru
@@ -10,10 +13,11 @@ import com.kami.fileexplorer.BaseView;
 
 interface FileContract {
     interface View extends BaseView<Presenter> {
-
+        String getPath();
+        void listFile(List<FileExplorer.File> fileList);
+        void notifyError(String errorMessage);
     }
 
     interface Presenter extends BasePresenter {
-
     }
 }

@@ -32,13 +32,13 @@ class CIFSListAdapter extends BaseAdapter<CIFSDevice, CIFSListAdapter.DeviceView
 
     @Override
     public CIFSListAdapter.DeviceViewHolder onCreateBaseViewHolder(ViewGroup parent, int viewType) {
-        return new DeviceViewHolder(getContentView(parent, R.layout.list_file_item));
+        return new DeviceViewHolder(getContentView(parent, R.layout.list_device_item));
     }
 
     final static class DeviceViewHolder extends BaseAdapter.BaseViewHolder<CIFSDevice> {
-        @BindView(R.id.file_icon)
+        @BindView(R.id.device_icon)
         FSImageView mDeviceIcon;
-        @BindView(R.id.file_name)
+        @BindView(R.id.device_name)
         FSTextView mDeviceName;
         DeviceViewHolder(View itemView) {
             super(itemView);

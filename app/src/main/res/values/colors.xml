@@ -7,4 +7,6 @@
     <color name="file_route_name_color">#888888</color>
     <color name="file_route_arrow_color">#AAAAAA</color>
     <color name="file_route_list_bg">#EEEEEE</color>
+    <color name="file_fragment_bg">#FFFFFF</color>
+    <color name="file_simple_data_text_color">#AAAAAA</color>
 </resources>

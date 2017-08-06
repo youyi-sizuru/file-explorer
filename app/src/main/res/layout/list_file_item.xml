@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.kami.fileexplorer.widget.FSLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="12dp"
     android:orientation="horizontal"
@@ -11,15 +11,29 @@
         android:layout_width="@dimen/file_icon_size"
         android:layout_height="@dimen/file_icon_size"
         tools:src="@drawable/folder_icon" />
-
-    <com.kami.fileexplorer.widget.FSTextView
-        android:id="@+id/file_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <com.kami.fileexplorer.widget.FSLinearLayout
         android:layout_gravity="center_vertical"
+        android:orientation="vertical"
         android:layout_marginLeft="12dp"
         android:layout_marginStart="12dp"
-        android:textColor="@color/file_name_color"
-        android:textSize="16sp"
-        tools:text="YOUYI-SIZURU" />
-</LinearLayout>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.kami.fileexplorer.widget.FSTextView
+            android:id="@+id/file_name"
+            android:maxLines="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/file_name_color"
+            android:textSize="16sp"
+            tools:text="YOUYI-SIZURU" />
+        <com.kami.fileexplorer.widget.FSTextView
+            android:id="@+id/simple_data_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/file_simple_data_text_color"
+            android:textSize="12sp"
+            android:layout_marginTop="8dp"
+            tools:text="100KB 2017.11.11" />
+    </com.kami.fileexplorer.widget.FSLinearLayout>
+</com.kami.fileexplorer.widget.FSLinearLayout>

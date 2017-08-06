@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kami.fileexplorer.widget.FSLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="12dp"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.kami.fileexplorer.widget.FSImageView
+        android:id="@+id/device_icon"
+        android:layout_width="@dimen/file_icon_size"
+        android:layout_height="@dimen/file_icon_size"
+        tools:src="@drawable/folder_icon" />
+
+    <com.kami.fileexplorer.widget.FSTextView
+        android:id="@+id/device_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:textColor="@color/file_name_color"
+        android:textSize="16sp"
+        tools:text="YOUYI-SIZURU" />
+
+</com.kami.fileexplorer.widget.FSLinearLayout>
