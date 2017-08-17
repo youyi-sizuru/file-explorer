@@ -5,20 +5,18 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * Created by youyi on 2017/4/16.
+ * author: youyi_sizuru
+ * data: 2017/4/16
  */
 
 public class SchedulerProvider implements BaseSchedulerProvider {
-    private static SchedulerProvider instance = null;
+    private static SchedulerProvider instance = new SchedulerProvider();
 
     public static SchedulerProvider getInstance() {
-        if (instance == null) {
-            instance = new SchedulerProvider();
-        }
         return instance;
     }
 
-    public SchedulerProvider() {
+    private SchedulerProvider() {
     }
 
     @Override

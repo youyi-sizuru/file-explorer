@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.kami.fileexplorer.widget.FSFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.kami.fileexplorer.widget.FSLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/file_fragment_bg"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <com.kami.fileexplorer.widget.FSRecyclerView
+        android:background="@color/file_route_list_bg"
+        android:id="@+id/file_route_list"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/file_path_list_view_height" />
     <com.kami.fileexplorer.widget.FSRecyclerView
         android:id="@+id/file_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     </com.kami.fileexplorer.widget.FSRecyclerView>
-</com.kami.fileexplorer.widget.FSFrameLayout>
+</com.kami.fileexplorer.widget.FSLinearLayout>

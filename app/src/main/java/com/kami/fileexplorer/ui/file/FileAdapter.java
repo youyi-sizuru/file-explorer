@@ -8,9 +8,13 @@ import android.view.ViewGroup;
 import com.kami.fileexplorer.R;
 import com.kami.fileexplorer.data.FileExplorer;
 import com.kami.fileexplorer.ui.BaseAdapter;
+import com.kami.fileexplorer.util.CommonUtils;
 import com.kami.fileexplorer.widget.FSImageView;
 import com.kami.fileexplorer.widget.FSTextView;
 
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.BindView;
 
@@ -36,6 +40,7 @@ class FileAdapter extends BaseAdapter<FileExplorer.File, FileAdapter.FileViewHol
         FSTextView mName;
         @BindView(R.id.simple_data_text)
         FSTextView mDataText;
+
         FileViewHolder(View itemView) {
             super(itemView);
         }
@@ -48,7 +53,8 @@ class FileAdapter extends BaseAdapter<FileExplorer.File, FileAdapter.FileViewHol
                 mIcon.setImageResource(R.drawable.folder_icon);
             } else {
                 mDataText.setVisibility(View.VISIBLE);
-                mDataText.setText(String.valueOf(item.length()));
+                mDataText.setText(String.format("%s %s", CommonUtils.formatFileSize(item.length()), CommonUtils
+                        .formatFileModifiedTime(item.lastModified())));
                 mIcon.setImageResource(R.drawable.file_icon);
             }
         }

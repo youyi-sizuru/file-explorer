@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.kami.fileexplorer.widget.FSEditText
+        android:id="@+id/cifs_area_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/cifs_area_hint"
+        android:theme="@style/AuthDialogEditStyle" />
+
+    <com.kami.fileexplorer.widget.FSEditText
+        android:id="@+id/cifs_username_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/auth_username_hint"
+        android:theme="@style/AuthDialogEditStyle" />
+
+    <com.kami.fileexplorer.widget.FSEditText
+        android:id="@+id/cifs_password_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint="@string/auth_password_hint"
+        android:theme="@style/AuthDialogEditStyle" />
+</LinearLayout>

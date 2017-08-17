@@ -15,9 +15,12 @@ interface FileContract {
     interface View extends BaseView<Presenter> {
         String getPath();
         void listFile(List<FileExplorer.File> fileList);
-        void notifyError(String errorMessage);
+        void notifyError(Throwable throwable);
     }
 
     interface Presenter extends BasePresenter {
+        String getTitle();
+        String getDeviceName();
+        void listFiles();
     }
 }

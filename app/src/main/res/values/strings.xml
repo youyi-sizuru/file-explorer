@@ -1,4 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">FSE</string>
     <string name="file_label">文件列表</string>
+    <string name="cifs_area_hint">域 (选填)</string>
+    <string name="auth_username_hint">用户名</string>
+    <string name="auth_password_hint">密码</string>
 </resources>

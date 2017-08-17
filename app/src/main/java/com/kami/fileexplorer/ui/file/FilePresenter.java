@@ -28,13 +28,23 @@ class FilePresenter implements FileContract.Presenter {
         listFiles();
     }
 
-    private void listFiles() {
+     public void listFiles() {
        Disposable disposable = Observable.just(mView.getPath())
                 .map(mFileExplorer::getFiles)
                 .subscribeOn(SchedulerProvider.getInstance().io())
                 .observeOn(SchedulerProvider.getInstance().ui())
-                .subscribe(mView::listFile, throwable -> mView.notifyError(throwable.getMessage()));
+                .subscribe(mView::listFile, throwable -> mView.notifyError(throwable));
         mDisposable.add(disposable);
+    }
+
+    @Override
+    public String getTitle() {
+        return mFileExplorer.getTitle();
+    }
+
+    @Override
+    public String getDeviceName() {
+        return mFileExplorer.getDeviceName();
     }
 
     @Override

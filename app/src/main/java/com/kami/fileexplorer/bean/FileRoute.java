@@ -7,11 +7,11 @@ package com.kami.fileexplorer.bean;
 
 public class FileRoute {
     private String mName;
-    private String mTag;
+    private String mPath;
 
-    public FileRoute(String name, String tag) {
+    public FileRoute(String name, String path) {
         this.mName = name;
-        this.mTag = tag;
+        this.mPath = path;
     }
 
     public String getName() {
@@ -22,19 +22,19 @@ public class FileRoute {
         this.mName = name;
     }
 
-    public String getTag() {
-        return mTag;
+    public String getPath() {
+        return mPath;
     }
 
-    public void setTag(String tag) {
-        this.mTag = tag;
+    public void setPath(String mPath) {
+        this.mPath = mPath;
     }
 
     @Override
     public String toString() {
         return "FileRoute{" +
                 "mName='" + mName + '\'' +
-                ", mTag='" + mTag + '\'' +
+                ", mPath='" + mPath + '\'' +
                 '}';
     }
 }

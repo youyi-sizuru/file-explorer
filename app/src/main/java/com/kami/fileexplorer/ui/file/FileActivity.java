@@ -28,15 +28,12 @@ import butterknife.BindView;
  * data: 2017/7/16
  */
 
-public class FileActivity extends BaseActivity implements BaseAdapter.OnItemClickListener {
+public class FileActivity extends BaseActivity {
 
     private static final String FILE_EXPLORER = "file_explorer";
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.file_route_list)
-    FSRecyclerView mFileRouteListView;
-    private FileRouteAdapter mFileRouteAdapter;
-    private FileExplorer mFileExplorer;
+    private FileFragment mFileFragment;
 
 
     public static Intent getIntent(Context context, FileExplorer explorer) {
@@ -51,55 +48,21 @@ public class FileActivity extends BaseActivity implements BaseAdapter.OnItemClic
         setContentView(R.layout.act_file);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mFileExplorer = (FileExplorer) getIntent().getSerializableExtra(FILE_EXPLORER);
-        getSupportActionBar().setTitle(mFileExplorer.getTitle());
-        initFileRouteListView();
-        openDirectory("", mFileExplorer.getDeviceName());
+        FileExplorer fileExplorer = (FileExplorer) getIntent().getSerializableExtra(FILE_EXPLORER);
+        getSupportActionBar().setTitle(fileExplorer.getTitle());
+        mFileFragment = (FileFragment) getSupportFragmentManager().findFragmentById(R.id.file_fragment);
+        initFragment(fileExplorer);
     }
 
-    private void initFileRouteListView() {
-        mFileRouteListView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        List<FileRoute> list = new ArrayList<>();
-        list.add(new FileRoute(mFileExplorer.getTitle(), mFileExplorer.getTitle()));
-        mFileRouteAdapter = new FileRouteAdapter(this, list);
-        mFileRouteAdapter.setItemClickListener(this);
-        mFileRouteListView.setAdapter(mFileRouteAdapter);
-    }
-
-
-    @Override
-    public void onItemClick(BaseAdapter adapter, int position, View view) {
-        if (position > 0) {
-            String tag = mFileRouteAdapter.getList().get(position).getTag();
-            boolean pop = getSupportFragmentManager().popBackStackImmediate(tag, 0);
-            if (pop) {
-                mFileRouteAdapter.removeTo(position);
-            }
-        } else {
-            finish();
-        }
-    }
-
-    void openDirectory(String path, String name) {
-        String tag = "file://" + path;
-        mFileRouteAdapter.add(new FileRoute(name, tag));
-        mFileRouteListView.scrollToPosition(mFileRouteAdapter.getItemCount() - 1);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        FileFragment fragment = FileFragment.newInstance(path);
-        FilePresenter presenter = new FilePresenter(fragment, mFileExplorer);
-        fragment.setPresenter(presenter);
-        transaction.add(R.id.fragment_container, fragment, tag);
-        transaction.addToBackStack(tag);
-        transaction.commit();
+    private void initFragment(FileExplorer fileExplorer) {
+        FilePresenter presenter = new FilePresenter(mFileFragment, fileExplorer);
+        mFileFragment.setPresenter(presenter);
     }
 
     @Override
     public void onBackPressed() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager.getBackStackEntryCount() > 1 && fragmentManager.popBackStackImmediate()) {
-            mFileRouteAdapter.remove();
-        } else {
-            finish();
-        }
+       if(!mFileFragment.backTo()){
+           super.onBackPressed();
+       }
     }
 }

@@ -1,6 +1,8 @@
 package com.kami.fileexplorer.data;
 
 
+import com.kami.fileexplorer.exception.AuthException;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.MalformedURLException;

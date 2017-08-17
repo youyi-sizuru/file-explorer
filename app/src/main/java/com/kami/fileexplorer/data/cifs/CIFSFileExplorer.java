@@ -2,6 +2,7 @@ package com.kami.fileexplorer.data.cifs;
 
 import com.kami.fileexplorer.bean.CIFSDevice;
 import com.kami.fileexplorer.data.FileExplorer;
+import com.kami.fileexplorer.exception.AuthException;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jcifs.smb.NtlmPasswordAuthentication;
+import jcifs.smb.SmbAuthException;
 import jcifs.smb.SmbFile;
 
 /**
@@ -32,29 +34,33 @@ public class CIFSFileExplorer implements FileExplorer {
 
     @Override
     public List<File> getFiles(String path) throws IOException {
-        NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("", "youyi", "xzp");
-        SmbFile parent = new SmbFile(String.format("smb://%s/%s/", mDevice.getHostIp(), path), auth);
-        if (!parent.exists()) {
-            throw new IOException(String.format("%s is not exists", path));
-        }
-        SmbFile[] children = parent.listFiles();
-        List<File> fileList = new ArrayList<>();
-        for (SmbFile child : children) {
-            CIFSFile file = new CIFSFile();
-            String name = child.getName();
-            if (name.endsWith("/")) {
-                name = name.substring(0, name.length() - 1);
+        try {
+            NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("", "youyi", "xzp");
+            SmbFile parent = new SmbFile(String.format("smb://%s%s/", mDevice.getHostIp(), path), auth);
+            if (!parent.exists()) {
+                throw new IOException(String.format("%s is not exists", path));
             }
-            file.setName(name);
-            boolean isDir = child.isDirectory();
-            file.setDir(isDir);
-            if (!isDir) {
-                file.setLastModified(child.getLastModified());
-                file.setLength(child.getContentLength());
+            SmbFile[] children = parent.listFiles();
+            List<File> fileList = new ArrayList<>();
+            for (SmbFile child : children) {
+                CIFSFile file = new CIFSFile();
+                String name = child.getName();
+                if (name.endsWith("/")) {
+                    name = name.substring(0, name.length() - 1);
+                }
+                file.setName(name);
+                boolean isDir = child.isDirectory();
+                file.setDir(isDir);
+                if (!isDir) {
+                    file.setLastModified(child.getLastModified());
+                    file.setLength(child.getContentLength());
+                }
+                fileList.add(file);
             }
-            fileList.add(file);
+            return fileList;
+        } catch (SmbAuthException e) {
+            throw new AuthException(e.getMessage(), e.getCause());
         }
-        return fileList;
     }
 
     @Override
