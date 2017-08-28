@@ -1,5 +1,6 @@
 package com.kami.fileexplorer.ui.file;
 
+import com.google.common.base.Strings;
 import com.kami.fileexplorer.data.FileExplorer;
 import com.kami.fileexplorer.util.schedulers.SchedulerProvider;
 
@@ -25,15 +26,14 @@ class FilePresenter implements FileContract.Presenter {
 
     @Override
     public void subscribe() {
-        listFiles();
+        listFiles("");
     }
 
-     public void listFiles() {
-       Disposable disposable = Observable.just(mView.getPath())
-                .map(mFileExplorer::getFiles)
-                .subscribeOn(SchedulerProvider.getInstance().io())
-                .observeOn(SchedulerProvider.getInstance().ui())
-                .subscribe(mView::listFile, throwable -> mView.notifyError(throwable));
+    @Override
+    public void listFiles(final String path) {
+        Disposable disposable = Observable.just(path).map(mFileExplorer::getFiles).subscribeOn(SchedulerProvider
+                .getInstance().io()).observeOn(SchedulerProvider.getInstance().ui()).subscribe(list -> mView.listFile
+                (path, list), throwable -> mView.notifyError(throwable));
         mDisposable.add(disposable);
     }
 

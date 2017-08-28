@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.common.base.Strings;
 import com.kami.fileexplorer.R;
 import com.kami.fileexplorer.bean.FileRoute;
 import com.kami.fileexplorer.comparable.DefaultFileComparator;
@@ -45,7 +46,8 @@ public class FileFragment extends BaseFragment implements FileContract.View, Bas
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle
+            savedInstanceState) {
         return inflater.inflate(R.layout.frag_file, container, false);
     }
 
@@ -69,11 +71,8 @@ public class FileFragment extends BaseFragment implements FileContract.View, Bas
         if (adapter == mFileAdapter) {
             FileExplorer.File file = mFileAdapter.getList().get(position);
             if (file.isDirectory()) {
-                String path = getPath() + "/" + file.getName();
-                mFileRouteAdapter.add(new FileRoute(file.getName(), path));
-                mFileRouteListView.scrollToPosition(mFileRouteAdapter.getItemCount() - 1);
-                mFileListStack.add(new ArrayList<>());
-                mPresenter.listFiles();
+                final FileRoute fileRoute = mFileRouteAdapter.getList().get(mFileRouteAdapter.getItemCount() - 1);
+                mPresenter.listFiles(fileRoute.getPath() + "/" + file.getName());
             }
         } else {
             if (!backTo(position)) {
@@ -100,13 +99,6 @@ public class FileFragment extends BaseFragment implements FileContract.View, Bas
         return true;
     }
 
-    @Override
-    public String getPath() {
-        List<FileRoute> fileRouteList = mFileRouteAdapter.getList();
-        int size = mFileRouteAdapter.getItemCount();
-        return fileRouteList.get(size - 1).getPath();
-    }
-
     private void initFileListView() {
         mFileListView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mFileAdapter = new FileAdapter(getContext());
@@ -115,20 +107,23 @@ public class FileFragment extends BaseFragment implements FileContract.View, Bas
     }
 
     private void initFileRouteListView() {
-        mFileRouteListView.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        mFileRouteListView.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager
+                .HORIZONTAL, false));
         List<FileRoute> list = new ArrayList<>();
         list.add(new FileRoute(mPresenter.getTitle(), mPresenter.getTitle()));
-        list.add(new FileRoute(mPresenter.getDeviceName(), "/"));
+        list.add(new FileRoute(mPresenter.getDeviceName(), ""));
         mFileRouteAdapter = new FileRouteAdapter(this.getContext(), list);
-        mFileListStack.push(new ArrayList<>());
         mFileRouteAdapter.setItemClickListener(this);
         mFileRouteListView.setAdapter(mFileRouteAdapter);
     }
 
     @Override
-    public void listFile(List<FileExplorer.File> fileList) {
+    public void listFile(String path, List<FileExplorer.File> fileList) {
         Collections.sort(fileList, mFileComparator);
-        mFileListStack.pop();
+        if (!Strings.isNullOrEmpty(path)) {
+            String name = path.substring(path.lastIndexOf("/") + 1);
+            mFileRouteAdapter.add(new FileRoute(name, path));
+        }
         mFileListStack.push(fileList);
         mFileAdapter.setList(fileList);
     }

@@ -1,5 +1,7 @@
 package com.kami.fileexplorer.data.cifs;
 
+import android.util.Log;
+
 import com.kami.fileexplorer.bean.CIFSDevice;
 import com.kami.fileexplorer.data.FileExplorer;
 import com.kami.fileexplorer.exception.AuthException;
@@ -35,8 +37,10 @@ public class CIFSFileExplorer implements FileExplorer {
     @Override
     public List<File> getFiles(String path) throws IOException {
         try {
-            NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("", "youyi", "xzp");
+            NtlmPasswordAuthentication auth = NtlmPasswordAuthentication.ANONYMOUS;
+            Log.e("path", path);
             SmbFile parent = new SmbFile(String.format("smb://%s%s/", mDevice.getHostIp(), path), auth);
+
             if (!parent.exists()) {
                 throw new IOException(String.format("%s is not exists", path));
             }

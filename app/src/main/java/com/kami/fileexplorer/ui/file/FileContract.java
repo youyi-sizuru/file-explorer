@@ -13,14 +13,17 @@ import java.util.List;
 
 interface FileContract {
     interface View extends BaseView<Presenter> {
-        String getPath();
-        void listFile(List<FileExplorer.File> fileList);
+
+        void listFile(String dir, List<FileExplorer.File> fileList);
+
         void notifyError(Throwable throwable);
     }
 
     interface Presenter extends BasePresenter {
         String getTitle();
+
         String getDeviceName();
-        void listFiles();
+
+        void listFiles(String path);
     }
 }
