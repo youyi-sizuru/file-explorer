@@ -2,11 +2,14 @@ package com.kami.fileexplorer.ui.file;
 
 import com.google.common.base.Strings;
 import com.kami.fileexplorer.data.FileExplorer;
+import com.kami.fileexplorer.dialog.auth.CIFSAuthDialog;
+import com.kami.fileexplorer.exception.AuthException;
 import com.kami.fileexplorer.util.schedulers.SchedulerProvider;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import jcifs.smb.NtlmPasswordAuthentication;
 
 /**
  * author: youyi_sizuru
@@ -26,16 +29,22 @@ class FilePresenter implements FileContract.Presenter {
 
     @Override
     public void subscribe() {
-        listFiles("");
+        listFiles("/");
     }
 
     @Override
     public void listFiles(final String path) {
         Disposable disposable = Observable.just(path).map(mFileExplorer::getFiles).subscribeOn(SchedulerProvider
                 .getInstance().io()).observeOn(SchedulerProvider.getInstance().ui()).subscribe(list -> mView.listFile
-                (path, list), throwable -> mView.notifyError(throwable));
+                (path, list), throwable -> {
+            if (throwable instanceof AuthException) {
+
+            }
+            mView.notifyError(throwable.getMessage());
+        });
         mDisposable.add(disposable);
     }
+
 
     @Override
     public String getTitle() {

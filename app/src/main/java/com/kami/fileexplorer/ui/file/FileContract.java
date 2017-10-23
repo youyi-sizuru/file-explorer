@@ -16,7 +16,8 @@ interface FileContract {
 
         void listFile(String dir, List<FileExplorer.File> fileList);
 
-        void notifyError(Throwable throwable);
+        void notifyError(String message);
+
     }
 
     interface Presenter extends BasePresenter {

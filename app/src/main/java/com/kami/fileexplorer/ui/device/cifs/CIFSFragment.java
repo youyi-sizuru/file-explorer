@@ -12,8 +12,11 @@ import android.widget.Toast;
 
 import com.kami.fileexplorer.R;
 import com.kami.fileexplorer.bean.CIFSDevice;
+import com.kami.fileexplorer.bean.Device;
 import com.kami.fileexplorer.data.FileExplorer;
 import com.kami.fileexplorer.data.cifs.CIFSFileExplorer;
+import com.kami.fileexplorer.dialog.auth.AuthDialog;
+import com.kami.fileexplorer.dialog.auth.CIFSAuthDialog;
 import com.kami.fileexplorer.ui.BaseAdapter;
 import com.kami.fileexplorer.ui.BaseFragment;
 import com.kami.fileexplorer.ui.file.FileActivity;
@@ -22,6 +25,7 @@ import com.kami.fileexplorer.widget.FSRecyclerView;
 import java.util.List;
 
 import butterknife.BindView;
+import jcifs.smb.NtlmPasswordAuthentication;
 
 /**
  * author: youyi_sizuru
@@ -33,9 +37,11 @@ public class CIFSFragment extends BaseFragment implements CIFSContract.View, Bas
     @BindView(R.id.cifs_list)
     FSRecyclerView mCifsListView;
     private CIFSListAdapter mAdapter;
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle
+            savedInstanceState) {
         return inflater.inflate(R.layout.frag_cifs, container, false);
     }
 
@@ -57,11 +63,19 @@ public class CIFSFragment extends BaseFragment implements CIFSContract.View, Bas
         Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
     }
 
+
     @Override
     public void onItemClick(BaseAdapter adapter, int position, View view) {
-        CIFSDevice device = mAdapter.getList().get(position);
-        FileExplorer explorer = new CIFSFileExplorer(device);
-        startActivity(FileActivity.getIntent(getContext(), explorer));
+        final CIFSDevice device = mAdapter.getList().get(position);
+        CIFSAuthDialog authDialog = new CIFSAuthDialog();
+        authDialog.setAuthListener(args -> {
+            NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(args[0], args[1], args[2]);
+            CIFSFileExplorer explorer = new CIFSFileExplorer(device);
+            explorer.setAuth(auth);
+            startActivity(FileActivity.getIntent(getContext(), explorer));
+        });
+        authDialog.show(getFragmentManager(), authDialog.getClass().getName());
+
     }
 
     @Override
@@ -69,7 +83,7 @@ public class CIFSFragment extends BaseFragment implements CIFSContract.View, Bas
         super.onActivityCreated(savedInstanceState);
         mAdapter = new CIFSListAdapter(getContext());
         mAdapter.setItemClickListener(this);
-        mCifsListView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL, false));
+        mCifsListView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mCifsListView.setAdapter(mAdapter);
         mPresenter.subscribe();
     }

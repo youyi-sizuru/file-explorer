@@ -13,9 +13,11 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import jcifs.UniAddress;
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbAuthException;
 import jcifs.smb.SmbFile;
+import jcifs.smb.SmbSession;
 
 /**
  * author: youyi_sizuru
@@ -24,9 +26,14 @@ import jcifs.smb.SmbFile;
 
 public class CIFSFileExplorer implements FileExplorer {
     private CIFSDevice mDevice;
+    private NtlmPasswordAuthentication mAuth;
 
     public CIFSFileExplorer(CIFSDevice device) {
         mDevice = device;
+    }
+
+    public void setAuth(NtlmPasswordAuthentication auth) {
+        this.mAuth = auth;
     }
 
     @Override
@@ -37,10 +44,8 @@ public class CIFSFileExplorer implements FileExplorer {
     @Override
     public List<File> getFiles(String path) throws IOException {
         try {
-            NtlmPasswordAuthentication auth = NtlmPasswordAuthentication.ANONYMOUS;
             Log.e("path", path);
-            SmbFile parent = new SmbFile(String.format("smb://%s%s/", mDevice.getHostIp(), path), auth);
-
+            SmbFile parent = new SmbFile(String.format("smb://%s%s/", mDevice.getHostIp(), path), mAuth);
             if (!parent.exists()) {
                 throw new IOException(String.format("%s is not exists", path));
             }

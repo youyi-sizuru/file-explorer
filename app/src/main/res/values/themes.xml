@@ -7,6 +7,13 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="dialogTheme">@style/AppCompatDialogStyle</item>
     </style>
-
+    <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="windowNoTitle">false</item>
+        <item name="android:windowTitleStyle">@style/AppCompatDialogWindowTitleStyle</item>
+    </style>
+    <style name="AppCompatDialogWindowTitleStyle" parent="RtlOverlay.DialogWindowTitle.AppCompat">
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>

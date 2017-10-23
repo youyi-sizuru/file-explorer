@@ -1,28 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<com.kami.fileexplorer.widget.FSRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <com.kami.fileexplorer.widget.FSEditText
-        android:id="@+id/cifs_area_text"
+    <com.kami.fileexplorer.widget.FSLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/cifs_area_hint"
-        android:theme="@style/AuthDialogEditStyle" />
+        android:orientation="vertical">
 
-    <com.kami.fileexplorer.widget.FSEditText
-        android:id="@+id/cifs_username_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/auth_username_hint"
-        android:theme="@style/AuthDialogEditStyle" />
+        <com.kami.fileexplorer.widget.FSEditText
+            android:id="@+id/cifs_area_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/cifs_area_hint"
+            android:theme="@style/AuthDialogEditStyle"
+            style="@style/AuthDialogEditStyle"/>
 
-    <com.kami.fileexplorer.widget.FSEditText
-        android:id="@+id/cifs_password_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint="@string/auth_password_hint"
-        android:theme="@style/AuthDialogEditStyle" />
-</LinearLayout>
+        <com.kami.fileexplorer.widget.FSEditText
+            android:id="@+id/cifs_username_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/auth_username_hint"
+            android:theme="@style/AuthDialogEditStyle"
+            style="@style/AuthDialogEditStyle"/>
+
+        <com.kami.fileexplorer.widget.FSEditText
+            android:id="@+id/cifs_password_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/auth_password_hint"
+            android:inputType="textPassword"
+            android:theme="@style/AuthDialogEditStyle"
+            style="@style/AuthDialogEditStyle"/>
+
+        <com.kami.fileexplorer.widget.FSLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.kami.fileexplorer.widget.FSFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.kami.fileexplorer.widget.FSButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:text="取消"/>
+            </com.kami.fileexplorer.widget.FSFrameLayout>
+
+            <com.kami.fileexplorer.widget.FSFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.kami.fileexplorer.widget.FSButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:text="连接"/>
+            </com.kami.fileexplorer.widget.FSFrameLayout>
+        </com.kami.fileexplorer.widget.FSLinearLayout>
+    </com.kami.fileexplorer.widget.FSLinearLayout>
+
+</com.kami.fileexplorer.widget.FSRelativeLayout>

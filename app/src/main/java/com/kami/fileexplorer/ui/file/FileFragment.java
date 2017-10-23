@@ -72,7 +72,11 @@ public class FileFragment extends BaseFragment implements FileContract.View, Bas
             FileExplorer.File file = mFileAdapter.getList().get(position);
             if (file.isDirectory()) {
                 final FileRoute fileRoute = mFileRouteAdapter.getList().get(mFileRouteAdapter.getItemCount() - 1);
-                mPresenter.listFiles(fileRoute.getPath() + "/" + file.getName());
+                if (fileRoute.getPath().equals("/")) {
+                    mPresenter.listFiles(fileRoute.getPath() + file.getName());
+                } else {
+                    mPresenter.listFiles(fileRoute.getPath() + "/" + file.getName());
+                }
             }
         } else {
             if (!backTo(position)) {
@@ -111,7 +115,7 @@ public class FileFragment extends BaseFragment implements FileContract.View, Bas
                 .HORIZONTAL, false));
         List<FileRoute> list = new ArrayList<>();
         list.add(new FileRoute(mPresenter.getTitle(), mPresenter.getTitle()));
-        list.add(new FileRoute(mPresenter.getDeviceName(), ""));
+        list.add(new FileRoute(mPresenter.getDeviceName(), "/"));
         mFileRouteAdapter = new FileRouteAdapter(this.getContext(), list);
         mFileRouteAdapter.setItemClickListener(this);
         mFileRouteListView.setAdapter(mFileRouteAdapter);
@@ -120,7 +124,7 @@ public class FileFragment extends BaseFragment implements FileContract.View, Bas
     @Override
     public void listFile(String path, List<FileExplorer.File> fileList) {
         Collections.sort(fileList, mFileComparator);
-        if (!Strings.isNullOrEmpty(path)) {
+        if (!path.equals("/")) {
             String name = path.substring(path.lastIndexOf("/") + 1);
             mFileRouteAdapter.add(new FileRoute(name, path));
         }
@@ -130,8 +134,8 @@ public class FileFragment extends BaseFragment implements FileContract.View, Bas
 
 
     @Override
-    public void notifyError(Throwable throwable) {
-        Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
+    public void notifyError(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
