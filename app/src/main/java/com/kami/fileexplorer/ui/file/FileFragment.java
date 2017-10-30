@@ -1,5 +1,6 @@
 package com.kami.fileexplorer.ui.file;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -72,7 +73,7 @@ public class FileFragment extends BaseFragment implements FileContract.View, Bas
             FileExplorer.File file = mFileAdapter.getList().get(position);
             if (file.isDirectory()) {
                 final FileRoute fileRoute = mFileRouteAdapter.getList().get(mFileRouteAdapter.getItemCount() - 1);
-                if (fileRoute.getPath().equals("/")) {
+                if ("/".equals(fileRoute.getPath())) {
                     mPresenter.listFiles(fileRoute.getPath() + file.getName());
                 } else {
                     mPresenter.listFiles(fileRoute.getPath() + "/" + file.getName());
@@ -131,6 +132,7 @@ public class FileFragment extends BaseFragment implements FileContract.View, Bas
         mFileListStack.push(fileList);
         mFileAdapter.setList(fileList);
     }
+
 
 
     @Override

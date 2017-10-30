@@ -32,8 +32,12 @@ public class CIFSFileExplorer implements FileExplorer {
         mDevice = device;
     }
 
-    public void setAuth(NtlmPasswordAuthentication auth) {
-        this.mAuth = auth;
+    @Override
+    public void setAuth(String[] args) {
+        if (args.length != 3) {
+            throw new IllegalStateException("auth input count must be 3");
+        }
+        this.mAuth = new NtlmPasswordAuthentication(args[0], args[1], args[2]);
     }
 
     @Override
@@ -44,7 +48,6 @@ public class CIFSFileExplorer implements FileExplorer {
     @Override
     public List<File> getFiles(String path) throws IOException {
         try {
-            Log.e("path", path);
             SmbFile parent = new SmbFile(String.format("smb://%s%s/", mDevice.getHostIp(), path), mAuth);
             if (!parent.exists()) {
                 throw new IOException(String.format("%s is not exists", path));

@@ -12,6 +12,7 @@ import com.kami.fileexplorer.R;
 import com.kami.fileexplorer.widget.FSEditText;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * author: youyi_sizuru
@@ -33,22 +34,27 @@ public class CIFSAuthDialog extends AuthDialog {
         return inflater.inflate(R.layout.dialog_cifs_auth, container, false);
     }
 
+    @OnClick(R.id.cancel_btn)
+    public void onCancel() {
+        this.dismiss();
+    }
+
+    @OnClick(R.id.link_btn)
+    public void onLink() {
+        this.dismiss();
+        OnAuthListener listener = getAuthListener();
+        if (listener == null) {
+            return;
+        }
+        getAuthListener().onAuth(mAreaText.getText().toString().trim(), mUsernameText.getText().toString().trim(),
+                mPasswordText.getText().toString().trim());
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog =  super.onCreateDialog(savedInstanceState);
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.setTitle("连接到");
-
         return dialog;
     }
-    //    @Override
-//    public void onClick(DialogInterface dialog, int which) {
-//        OnAuthListener listener = getAuthListener();
-//        if (listener == null) {
-//            return;
-//        }
-//        getAuthListener().onAuth( mAreaText.getText().toString().trim(), mUsernameText
-//                .getText().toString().trim(), mPasswordText.getText().toString().trim());
-//    }
-
 
 }

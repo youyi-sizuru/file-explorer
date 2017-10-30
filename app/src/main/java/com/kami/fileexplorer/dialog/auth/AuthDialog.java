@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
 
 import com.kami.fileexplorer.Constants;
 import com.kami.fileexplorer.dialog.BaseDialogFragment;
@@ -15,7 +16,7 @@ import jcifs.smb.NtlmPasswordAuthentication;
  * data: 2017/9/11
  */
 
-public abstract class AuthDialog extends BaseDialogFragment {
+public abstract class AuthDialog extends BaseDialogFragment{
     private OnAuthListener mAuthListener;
 
     public void setAuthListener(OnAuthListener listener) {

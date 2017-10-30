@@ -14,9 +14,11 @@ import java.util.List;
  */
 
 public interface FileExplorer extends Serializable{
+    public static final String CIFS = "cifs";
     List<File> getFiles(String path) throws IOException;
     String getDeviceName();
     String getTitle();
+    void setAuth(String[] auth);
     interface File{
         String getName();
         boolean isDirectory();

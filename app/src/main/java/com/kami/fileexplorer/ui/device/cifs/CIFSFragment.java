@@ -69,9 +69,8 @@ public class CIFSFragment extends BaseFragment implements CIFSContract.View, Bas
         final CIFSDevice device = mAdapter.getList().get(position);
         CIFSAuthDialog authDialog = new CIFSAuthDialog();
         authDialog.setAuthListener(args -> {
-            NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(args[0], args[1], args[2]);
             CIFSFileExplorer explorer = new CIFSFileExplorer(device);
-            explorer.setAuth(auth);
+            explorer.setAuth(args);
             startActivity(FileActivity.getIntent(getContext(), explorer));
         });
         authDialog.show(getFragmentManager(), authDialog.getClass().getName());

@@ -1,5 +1,8 @@
 package com.kami.fileexplorer.ui.file;
 
+import android.content.Context;
+import android.support.v4.app.FragmentManager;
+
 import com.kami.fileexplorer.BasePresenter;
 import com.kami.fileexplorer.BaseView;
 import com.kami.fileexplorer.data.FileExplorer;
@@ -18,6 +21,7 @@ interface FileContract {
 
         void notifyError(String message);
 
+        FragmentManager getFragmentManager();
     }
 
     interface Presenter extends BasePresenter {
